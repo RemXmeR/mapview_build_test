@@ -37,7 +37,7 @@ version = 0.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements=python3,kivy,kivymd,kivy_garden.manpvew,requests,certifi,urllib3,chardet,idna,plyer
+requirements=python3,kivy,kivymd,kivy_garden.manpview,requests,certifi,urllib3,chardet,idna,plyer
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
