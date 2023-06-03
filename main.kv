@@ -1,0 +1,19 @@
+#:import MapView kivy.garden.mapview.MapView
+<Places_Mapview>:
+    lat: 33.75
+    lon: -84.4
+    zoom: 10
+    on_zoom:
+        self.zoom = 10 if self.zoom < 10 else self.zoom
+
+<MyLayout>:
+    BoxLayout:
+        size: root.width, root.height
+        orientation: 'vertical'
+        Places_Mapview:
+        Label:
+            size_hint: 1, 0.2
+            text:"Ta aplikacja wysyła powiadomienia"
+        Button:
+            text: "wyślij powiadomienie"
+            on_press: root.press()
