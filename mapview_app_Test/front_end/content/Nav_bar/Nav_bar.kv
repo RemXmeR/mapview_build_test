@@ -1,0 +1,57 @@
+<Nav_bar>:
+#    size_hint: 1, 0.12
+    size: root.width, root.height
+    MDFloatLayout:
+        orientation: "horizontal"
+
+        Navigation:
+            id: navigation_manager_id
+            first_widget: profile_section_nav_id
+
+            MDBottomNavigationItem:
+                id: map_section_nav_id
+                name: "map_section"
+                text: "Maps"
+                icon: "map-marker-radius"
+                on_tab_press:
+                    navigation_manager_id.previous_tab_name = navigation_manager_id.previous_tab.name
+                Map_section:
+                    id: map_section_id
+                    navigation_manager: navigation_manager_id
+
+            MDBottomNavigationItem:
+                name: "places_section"
+                text: "Places"
+                icon: "list-box-outline"
+                on_tab_press:
+                    navigation_manager_id.previous_tab_name = navigation_manager_id.previous_tab.name
+
+                Places_section:
+                    navigation_manager: navigation_manager_id
+
+
+            MDBottomNavigationItem:
+                id: profile_section_nav_id
+                name: "profile_section"
+                text: "Profile"
+                icon: "list-status"
+
+
+                on_tab_press:
+                    navigation_manager_id.previous_tab_name = navigation_manager_id.previous_tab.name
+#                    navigation_manager_id.go_to_previous_tab()
+
+                Profile_manager:
+                    id: profile_manager_id
+                    navigation_manager: navigation_manager_id
+
+
+#                Places_section:
+#                on_release:
+#                    app.root.previous_object = app.root.current
+#                    app.root.current = "places_section"
+#                    app.root.transition.direction = "down"
+
+
+#                ProfileManager:
+

@@ -1,0 +1,82 @@
+#:import MapView front_end.content.Map_section.mapview_build.lib.kivy_garden.mapview
+#:import MapMarkerPopup front_end.content.Map_section.mapview_build.lib.kivy_garden.mapview
+
+<Places_Mapview>:
+    lat: 33.75
+    lon: -84.4
+    zoom: 10
+    on_zoom:
+        self.zoom = 10 if self.zoom < 10 else self.zoom
+    on_lat:
+        self.start_getting_place_in_fov()
+    on_lon:
+        self.start_getting_place_in_fov()
+#    MapMarkerPopup:
+#        id: main_map_me
+#        lat: 33.765
+#        lon: -84.45
+#        source: "front_end/content/Map_section/marker.png"
+    GpsBlinker:
+        id: blinker
+#        lat: 33.765
+#        lon: -84.45
+#        lat: root.lat
+#        lon: root.lon
+
+
+## Odwoluje sie do klassy Map_section
+<Map_section>:
+    ## name jest niezbedny, aby przyciski mogli do tego obiektu sie odwolywac
+
+    BoxLayout:
+        size: root.width, root.height
+        orientation: 'vertical'
+        Places_Mapview:
+            id: mapview
+#        Nav_bar:
+#            section_name: root.name
+
+    RoundedButton:
+        text: "?"
+#        background_color: (1,1,1,1)
+        pos_hint:{'center_x':0.9, 'center_y':.9}
+        size_hint: None, None
+        width:25
+        height:25
+        on_press:
+            root.show_help()
+
+<RoundedButton@Button>
+    background_color: (0,0,0,0)
+    background_normal: ""
+    canvas.before:
+        Color:
+            rgba: (0/255, 0/255, 0/255, 0.6)
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: [58]
+#
+#<Map_section>:
+#	name: "first"
+#
+#	BoxLayout:
+#		orientation: "vertical"
+#		size: root.width, root.height
+#
+#		Label:
+#			text: "First Screen"
+#			font_size: 32
+#
+#		Button:
+#			text: "Next Screen"
+#			font_size: 32
+#			on_release:
+#				app.root.current = "second"
+#				root.manager.transition.direction = "left"
+
+<Help_popup_menu_content>
+    orientation: "vertical"
+    spacing: "12dp"
+    size_hint_y: None
+    height: root.width * 0.8

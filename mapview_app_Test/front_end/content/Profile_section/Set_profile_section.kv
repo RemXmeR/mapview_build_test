@@ -1,0 +1,35 @@
+<RightCheckbox_profile>
+    group: 'group'
+
+<Profile_profile>
+    RightCheckbox_profile:
+        root_id: root.category_id
+        root_text: root.text
+        active: root.is_active
+
+
+<Set_profile_section>:
+    id: set_profile_section_id
+    
+    BoxLayout:
+        size: root.width, root.height
+        orientation: 'vertical'
+        Section_header:
+            header_text: "Set profile"
+            go_to_previous_tab: root.profile_manager_go_to_previous
+        ScrollView:
+#            MDList:
+#                OneLineListItem:
+#                    id: item2
+#                    text: "Profile1"
+#                OneLineListItem:
+#                    id: item2
+#                    text: "Profile2"
+            GridLayout:
+                id: panel_container
+                cols: 1
+                size_hint_y: None
+                height: self.minimum_height
+
+#        Nav_bar:
+#            section_name: root.name
