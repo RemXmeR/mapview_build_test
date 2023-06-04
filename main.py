@@ -4,10 +4,11 @@ from kivy.uix.widget import Widget
 from kivy.lang import Builder
 from plyer import notification
 from kivy.clock import Clock
-import asyncio
-from kivy.app import async_runTouchApp
-from kivy.uix.label import Label
-
+# import asyncio
+# from kivy.app import async_runTouchApp
+# from kivy.uix.label import Label
+import threading
+import time
 # from plyer_build.lib.plyer import notification
 import os
 
@@ -34,37 +35,72 @@ class MyLayout(Widget):
 
 class MyApp(App):
     lol = 1
+    itsgo=0
 
     def build(self):
         return MyLayout()
 
     def on_start(self):
         # Zadanie, które będzie uruchamiane w tle
-        pass
+        class HelloWorldPrinter:
+            def __init__(self):
+                self.stop_printing = threading.Event()
+
+            def print_hello_world(self):
+                while not self.stop_printing.is_set():
+                    print('Background!')
+                    notification.notify(
+                        title="BACKGROUND",
+                        message="XD BG"
+                    )
+                    time.sleep(5)
+
+            def stop(self):
+                self.stop_printing.set()
+
+        self.printer = HelloWorldPrinter()
+
         # Clock.schedule_interval(, 0)
+
+    def letsgo(self):
+        print(self.itsgo)
+        if self.itsgo==1:
+            return
+        self.itsgo = 1
+        self.background_thread = threading.Thread(target=self.printer.print_hello_world)
+        self.background_thread.start()
+    def dontgo(self):
+        if self.itsgo == 1:
+            self.printer.stop()
+            self.itsgo = 0
 
     def on_pause(self):
         print("PAUSED")
-        self.pause_event = Clock.schedule_interval(self.noti_pause, 10)
-        print("PAUSED 2")
-        return True
-
-    def noti_pause(self, dt):
-        print("PAUSED LOOP ", self.lol)
+        # self.pause_event = Clock.schedule_interval(self.noti_pause, 10)
         notification.notify(
             title="PAUSE",
             message="Paused {0}".format(self.lol)
         )
         self.lol = self.lol + 1
+        print("PAUSED 2")
+        return True
+
+    # def noti_pause(self, dt):
+    #     print("PAUSED LOOP ", self.lol)
+    #     notification.notify(
+    #         title="PAUSE",
+    #         message="Paused {0}".format(self.lol)
+    #     )
+    #     self.lol = self.lol + 1
 
     def on_resume(self):
-        try:
-            self.pause_event.cancel()
-        except:
-            notification.notify(
-                title="NO CANSEL",
-                message="Resumed CANSEL"
-            )
+        # try:
+        #     self.pause_event.cancel()
+        # except:
+        #     notification.notify(
+        #         title="NO CANSEL",
+        #         message="Resumed CANSEL"
+        #     )
         notification.notify(
             title="RESUME",
             message="Resumed"
@@ -78,6 +114,7 @@ class MyApp(App):
             message="Stoped",
             timeout=1
         )
+        self.printer.stop()
 
 
 # async def print_hello_world():
@@ -105,42 +142,7 @@ class MyApp(App):
 # print("LOL XD")
 
 
-
-
-import threading
-import time
-
-def print_hello_world2():
-    while True:
-        print('Hello, world!')
-        time.sleep(1)  # Możesz dostosować tę wartość, aby kontrolować częstotliwość wyświetlania
-
-class HelloWorldPrinter:
-    def __init__(self):
-        self.stop_printing = threading.Event()
-
-    def print_hello_world(self):
-        while not self.stop_printing.is_set():
-            print('Hello, world!')
-            time.sleep(1)
-
-    def stop(self):
-        self.stop_printing.set()
-
-
-def run_main_code(printer):
-    for i in range(10):
-        print(f"Running main code: {i}")
-        time.sleep(1)
-    printer.stop()
-
-
-printer = HelloWorldPrinter()
-background_thread = threading.Thread(target=printer.print_hello_world)
-background_thread.start()
-
 MyApp().run()
-printer.stop()
 
 
 
